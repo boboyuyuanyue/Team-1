@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Add Workout</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>Add Workout</h1>
+</header>
+
+<nav>
+    <a href="index.html">Dashboard</a>
+    <a href="add.html">Add Workout</a>
+</nav>
+
+<div class="container">
+    <h2>Log your activity</h2>
+
+    <input type="text" id="activity" placeholder="Workout type (e.g. Running)">
+    <input type="number" id="minutes" placeholder="Minutes">
+
+    <button onclick="saveWorkout()">Add Workout</button>
+
+    <p id="msg"></p>
+</div>
+
+<script>
+function saveWorkout() {
+    let activity = document.getElementById("activity").value;
+    let minutes = document.getElementById("minutes").value;
+
+    if (!activity || !minutes) {
+        document.getElementById("msg").innerText = "Please fill in all fields!";
+        return;
+    }
+
+    let workouts = JSON.parse(localStorage.getItem("workouts")) || [];
+
+    workouts.push({
+        activity,
+        minutes,
+        date: new Date().toLocaleDateString()
+    });
+
+    localStorage.setItem("workouts", JSON.stringify(workouts));
+
+    document.getElementById("msg").innerText = "Workout saved!";
+}
+</script>
+
+</body>
+</html>
