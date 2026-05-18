@@ -20,37 +20,56 @@
 </nav>
 
 <div class="container">
-    <h2>Log your activity</h2>
 
-    <input type="text" id="activity" placeholder="Workout type (e.g. Running)">
+    <h2>Add Workout</h2>
+
+    <select id="activity">
+        <option value="Running">Running</option>
+        <option value="Gym">Gym</option>
+        <option value="Cycling">Cycling</option>
+        <option value="Swimming">Swimming</option>
+    </select>
+
+    <input type="text" id="newType" placeholder="Or add new workout type">
+
     <input type="number" id="minutes" placeholder="Minutes">
 
-    <button onclick="saveWorkout()">Add Workout</button>
+    <input type="date" id="date">
+
+    <input type="time" id="time">
+
+    <button onclick="saveWorkout()">Save Workout</button>
 
     <p id="msg"></p>
+
 </div>
 
 <script>
 function saveWorkout() {
-    let activity = document.getElementById("activity").value;
-    let minutes = document.getElementById("minutes").value;
+    let activity = document.getElementById("newType").value.trim()
+        || document.getElementById("activity").value;
 
-    if (!activity || !minutes) {
-        document.getElementById("msg").innerText = "Please fill in all fields!";
+    let minutes = document.getElementById("minutes").value;
+    let date = document.getElementById("date").value;
+    let time = document.getElementById("time").value;
+
+    if (!activity || !minutes || !date || !time) {
+        document.getElementById("msg").innerText = "Please fill all fields!";
         return;
     }
 
-    let workouts = JSON.parse(localStorage.getItem("workouts")) || [];
+    let data = JSON.parse(localStorage.getItem("workouts")) || [];
 
-    workouts.push({
+    data.push({
         activity,
         minutes,
-        date: new Date().toLocaleDateString()
+        date,
+        time
     });
 
-    localStorage.setItem("workouts", JSON.stringify(workouts));
+    localStorage.setItem("workouts", JSON.stringify(data));
 
-    document.getElementById("msg").innerText = "Workout saved!";
+    window.location.href = "index.html";
 }
 </script>
 
